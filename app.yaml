@@ -1,0 +1,38 @@
+name: technovaganza
+services:
+- name: frontend
+  source_dir: /frontend
+  github:
+    repo: httpshikhar/technovaganza
+    branch: main
+  run_command: npm start
+  build_command: npm run build
+  environment_slug: node-js
+  instance_count: 1
+  instance_size_slug: basic-xxs
+  routes:
+  - path: /
+  envs:
+  - key: REACT_APP_API_URL
+    value: ${BACKEND_URL}
+
+- name: backend
+  source_dir: /backend
+  github:
+    repo: httpshikhar/technovaganza
+    branch: main
+  run_command: npm start
+  build_command: npm install
+  environment_slug: node-js
+  instance_count: 1
+  instance_size_slug: basic-xxs
+  routes:
+  - path: /api
+  envs:
+  - key: NODE_ENV
+    value: production
+  - key: JWT_SECRET
+    value: your-super-secure-jwt-secret-here-12345
+  - key: MONGODB_URI
+    scope: RUN_AND_BUILD_TIME
+    value: your-mongodb-connection-will-go-here
